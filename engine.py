@@ -2,8 +2,9 @@ from requests import request
 import json
 import sys
 
-#GOOGLE_API_KEY = 'AIzaSyD4QCanvCVjqVfR_BVkA8h5BOI7W95TUaE'
-IAT = '18526f6fc81747e899a4df9c6d7a2334'#INSTAGRAM_ACCES_TOKEN
+GAK=''
+#GAK = '&key=AIzaSyD4QCanvCVjqVfR_BVkA8h5BOI7W95TUaE' #GOOGLE API KEY
+
 address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
 if len(sys.argv)>1:
     address = sys.argv[1]
@@ -11,15 +12,28 @@ if len(sys.argv)>1:
     address = '+'.join(address)
 
 
-try:
-    res = request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address={}'.format(address))
-    res_dict = json.loads(res.text)
-    lat = res_dict['results'][0]['geometry']['location']['lat']
-    lng = lat = res_dict['results'][0]['geometry']['location']['lng']
-except IndexError:
-    print('something went wrong, try again')
+res = request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address={}{}'.format(address,GAK))
+res_dict = json.loads(res.text)
+lat = res_dict['results'][0]['geometry']['location']['lat']
+lng = res_dict['results'][0]['geometry']['location']['lng']
 
-inst = request('GET', 'https://api.instagram.com/v1/media/search?lat={}&lng={}&client_id={}'.format(lat,lng,IAT))
 
-print(inst.json())
+url = 'https://api.foursquare.com/v2/venues/explore'
+
+params = dict(
+  client_id='IZYMTGJNI3PUUV0B4XJB1I3XSQEYFJLRD0PQE5XTB3L5A2FS',
+  client_secret='XEGRP41ZP1SS3RJPMSM3YLWFIXVYHQZZRLFF0FG3V1O4ODHQ',
+  v='20180323',
+  ll='{},{}'.format(lat, lng),
+  section='topPicks',
+  limit=10
+)
+resp = request('GET', url=url, params=params)
+data = json.loads(resp.text)
+print(data)
+
 print(lat, lng)
+print(
+    'https://maps.googleapis.com/maps/api/geocode/json?address={}'.format(address), 
+    sep='\n'
+    )
