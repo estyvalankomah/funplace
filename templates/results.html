@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if results.response==[] %}
+<div class="row">
+	<p>Aww! We couldn't find cool places to match your querry</p>
+	<p>Try entering a city name or district or a street address</p>
+	<p>You could try "University Of Ghana"</p>
+</div>
+{% else %}
+<div class="container">
+	{% for res in res.response %}
+		{% include 'res_card.html' with res %}
+	{% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
