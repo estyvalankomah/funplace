@@ -57,7 +57,7 @@ def search_foursquare(lat,lng):
     resp = request('GET', url=url, params=params)
     data = json.loads(resp.text)
     
-    print(resp.json())
+    print(json.dumps(resp.json(), indent=4))
     
     return data
 

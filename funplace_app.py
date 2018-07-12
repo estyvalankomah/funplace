@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from .engine import search
+from flask import Flask, render_template, request
+from engine import search
 
 app = Flask(__name__)
 
@@ -11,10 +11,11 @@ def index():
 def result():
    if request.method == 'GET':
       querry = request.form
+      print(querry)
       address = querry['search']
       result = search(address)
       return render_template("result.html",result = result)
 	
 
 if __name__=='__main__':
-    app.run(dubug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
