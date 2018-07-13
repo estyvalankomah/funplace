@@ -1,5 +1,17 @@
 <!-- reseult card expects a response object-->
+		  
+<div class="row">
+<div class="card" style="width:100rem;">
+  <img class="card-img-top" src="./restaurant.jpg" alt="Card image cap">
+  <div class="card-body">
+     <p class="card-text">{{ res_dict.name }}</p>
+     <p class="card-text">{{ res_dict.category }}</p>
+     <p class="card-text">{{ res_dict.address }}</p>
 
-<div>
+    <button type="submit" class="btn btn-primary ">
+            <a href="{{ res_dict.name }}"><font color="black">Get direction</font></a>
+    </button>
+  </div>
+</div>
 
 </div>
