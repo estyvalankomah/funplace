@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from engine import search
+from engine import search, filter_results
 
 app = Flask(__name__)
 
@@ -7,14 +7,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/result', methods = ['GET',])
+@app.route('/result', methods=['GET', 'POST'])
 def result():
-   if request.method == 'GET':
-      querry = request.form
-      print(querry)
-      address = querry['search']
-      result = search(address)
-      return render_template("result.html",result = result)
+	if request.method == 'POST':
+		address = request.form['q']
+		res = search(address)
+		if res['meta']['code'] == 200:
+			results = filter_results(res)
+		return render_template("results.html", results=results)
 	
 
 if __name__=='__main__':

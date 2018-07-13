@@ -55,17 +55,47 @@ def search_foursquare(lat,lng):
         )
     
     resp = request('GET', url=url, params=params)
-    data = json.loads(resp.text)
-    
-    print(json.dumps(resp.json(), indent=4))
+    data = json.load(resp.text)
     
     return data
+
 
 def search(address):
     """Given an addres, it geocodes the adddress and calls search_foursquare"""
     lat, lng = geocode(address)
     res_dict = search_foursquare(lat, lng)
     return res_dict
+    
+    
+ def get_item_list(res_dict):
+	 """Get place Item list of places from the foursquare response"""
+	 place_list = res_dict['response']['groups'][0]['items']
+	 return place_list
+
+def clean(place_item):
+	"""build a simpler dictionary of the place item"""
+	cleaned_place_item = {}
+	mapslink = ""
+	try:
+		cleaned_place_item['name'] = place_item['venue']['name']
+		cleaned_place_item['category'] = place_item['categories'][0]['name']
+		cleaned_place_item['address'] = place_item['venue']['location']['address']
+		cleaned_place_item['mapslink'] = mapslink.format(
+													place_item['venue']['location']['lat'],
+													place_item['venue']['location']['lng']
+												)
+	except IndexError:
+		print('WARNING: There was a problem cleaning the response')
+		return place_item
+		
+	return cleaned_place_item
+
+ def filter_results(result_dict):
+	 place_list = get_item_list(result_dict)
+	 cleaned_place_list = map(clean, place_list)
+	 return cleaned_place_list
+	 
+	 
 
 if __name__ == '__main__':
     res_dict = search(ADDRESS)
