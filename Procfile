@@ -1,1 +1,1 @@
-web: python myapp.py
+web: python funplace_app.py
