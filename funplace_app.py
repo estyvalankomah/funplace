@@ -19,4 +19,5 @@ def result():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    import os
+    app.run(debug=False, port=os.environ.get("PORT", 5000), processes=2)
