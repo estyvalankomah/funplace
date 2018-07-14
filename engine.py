@@ -81,8 +81,8 @@ def clean(place_item):
     mapslink = ""
     try:
         cleaned_place_item['name'] = place_item['venue']['name']
-        cleaned_place_item['category'] = place_item['categories'][0]['name']
-        cleaned_place_item['address'] = place_item['venue']['location']['address']
+        cleaned_place_item['category'] = place_item['venue']['categories'][0]['name']
+        cleaned_place_item['address'] = ", ".join(place_item['venue']['location']['formattedAddress'])
         cleaned_place_item['mapslink'] = mapslink.format(
             place_item['venue']['location']['lat'],
             place_item['venue']['location']['lng']

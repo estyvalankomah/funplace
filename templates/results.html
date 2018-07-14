@@ -5,14 +5,10 @@
 
 <div class="container">
 	{% for res in results %}
-		{% include 'res_card.html' with res %}
-		<br>
-	{% empty %}
-	<div class="row">
-	<p>Aww! We couldn't find cool places to match your querry</p>
-	<p>Try entering a city name or district or a street address</p>
-	<p>You could try "University Of Ghana"</p>
-	</div>
+        {% with res=res %}
+            {% include 'res_card.html' %}
+            <br>
+        {% endwith %}
 	{% endfor %}
 	
 </div>
