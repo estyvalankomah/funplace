@@ -1,1 +1,1 @@
-web: gunicorn app:funplace_app
+web: python funplace_app.py
